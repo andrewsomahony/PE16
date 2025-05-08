@@ -33,11 +33,12 @@ type PE16RelocationEntry struct {
 
 type PE16 struct {
 	Header PE16Header
-	// All our binary data, including relocations
-	// We have it this way because some old-school programs would
-	// inject data into the relocation table area, that was meant to
-	// serve as an identifier, so with this, we can grab it how we wish
-	Data []byte
+	// Our extra header data
+	// This is here because our header may give a length that is more
+	// than the standard PE16 header length plus the relocation table
+	// size, for things like a signature or something, so we capture
+	// that here.
+	ExtraHeaderData []byte
 	// Our relocation table
 	RelocationTable []PE16RelocationEntry
 	// Our Executable Data
